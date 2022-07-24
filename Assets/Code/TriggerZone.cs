@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent( typeof( AudioAlarm ) )]
 [RequireComponent( typeof( Collider ) )]
 public class TriggerZone : MonoBehaviour
 {
     private AudioAlarm _zoneAudioAlarm;
+    [SerializeField] private UnityEvent _entered;
+    [SerializeField] private UnityEvent _leaved;
 
     private void Awake()
     {
@@ -18,7 +21,7 @@ public class TriggerZone : MonoBehaviour
         if( other.TryGetComponent(out Rogue rogue) )
         {
             rogue.OnEnterAntiRogueZone();
-            _zoneAudioAlarm.Play();
+            _entered?.Invoke();
         }
     }
 
@@ -27,7 +30,7 @@ public class TriggerZone : MonoBehaviour
         if ( other.TryGetComponent(out Rogue rogue) )
         {
             rogue.OnLeaveAntiRogueZone();
-            _zoneAudioAlarm.Finish();
+            _leaved?.Invoke();
         }
     }
 }
