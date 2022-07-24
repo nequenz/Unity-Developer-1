@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Rogue : MonoBehaviour
 {
-    private TriggerZone _currentTriggerAntiRogueZone;
     private float _additinalSpeed = 3f;
     [SerializeField] private float _moveSpeed = 1.0f;
     [SerializeField] private Transform _moveTarget;
