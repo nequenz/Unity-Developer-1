@@ -10,7 +10,7 @@ public class AudioAlarm : MonoBehaviour
     private AudioSource _audioSource;
     private Coroutine _signalCoroutine;
     private float _volumeTarget = 1f;
-    private float WaitSeconds = .5f;
+    private float _waitSeconds = .5f;
 
     private void Awake()
     {
@@ -33,7 +33,7 @@ public class AudioAlarm : MonoBehaviour
 
     private IEnumerator TuneSignalVolumeCoroutine()
     {
-        WaitForSeconds _seconds = new WaitForSeconds( WaitSeconds );
+        WaitForSeconds _seconds = new WaitForSeconds( _waitSeconds );
         
         while (_audioSource.volume > 0f && _audioSource.volume < 1f)
         {
