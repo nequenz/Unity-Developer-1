@@ -9,17 +9,15 @@ public class AudioAlarm : MonoBehaviour
 
     private AudioSource _audioSource;
     private Coroutine _signalCoroutine;
-    private WaitForSeconds _secondsWaiter;
     private float _volumeTarget = 1f;
+    private float WaitSeconds = .5f;
 
     private void Awake()
     {
         const float StartVolume = 0.01f;
-        const float WaitSeconds = .5f;
 
         _audioSource = GetComponent<AudioSource>();
         _audioSource.volume = StartVolume;
-        _secondsWaiter = new WaitForSeconds( WaitSeconds );
     }
 
     private void SignalWithSmoothVolume(float volumeTarget)
@@ -35,6 +33,8 @@ public class AudioAlarm : MonoBehaviour
 
     private IEnumerator TuneSignalVolumeCoroutine()
     {
+        WaitForSeconds _seconds = new WaitForSeconds( WaitSeconds );
+        
         while (_audioSource.volume > 0f && _audioSource.volume < 1f)
         {
             if (_audioSource.isPlaying == false)
@@ -44,7 +44,7 @@ public class AudioAlarm : MonoBehaviour
 
             _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, _volumeTarget, VolumePerStep);
 
-            yield return _secondsWaiter;
+            yield return _seconds;
         }
     }
 
