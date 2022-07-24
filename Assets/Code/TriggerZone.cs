@@ -15,18 +15,18 @@ public class TriggerZone : MonoBehaviour
 
     private void OnTriggerEnter( Collider other )
     {
-        if( other.TryGetComponent(out Rogue rogueBehavior) == true )
+        if( other.TryGetComponent(out Rogue rogue) == true )
         {
-            rogueBehavior.OnEnterAntiRogueZone();
+            rogue.OnEnterAntiRogueZone();
             _zoneAudioAlarm.Play();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if ( other.TryGetComponent(out Rogue rogueBehavior) == true )
+        if ( other.TryGetComponent(out Rogue rogue) == true )
         {
-            rogueBehavior.OnLeaveAntiRogueZone();
+            rogue.OnLeaveAntiRogueZone();
             _zoneAudioAlarm.Finish();
         }
     }
