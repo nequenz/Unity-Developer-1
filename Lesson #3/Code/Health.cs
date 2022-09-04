@@ -6,7 +6,7 @@ public class Health : MonoBehaviour
     private float _health;
     [SerializeField] private float _maxHealth;
 
-    public event Action<float> OnHealthChanhed;
+    public event Action<float> OnHealthChanged;
 
     public float CurrentHealth { get => _health; }
     public float MaxHealth { get => _maxHealth; }
@@ -21,7 +21,7 @@ public class Health : MonoBehaviour
         const float MinHealth = 0f;
 
         _health = Mathf.Clamp(_health + amount, MinHealth,_maxHealth);
-        OnHealthChanhed?.Invoke(_health);
+        OnHealthChanged?.Invoke(_health);
     }
 
     public void Heal(float restoreAmount) => TakeAmount(restoreAmount);
