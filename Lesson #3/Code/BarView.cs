@@ -68,7 +68,6 @@ public class BarView : MonoBehaviour
 
         if( _animateBarCoroutine == null )
         {
-            Debug.Log("start");
             _animateBarCoroutine = StartCoroutine(AnimateBar());
         }
     }
