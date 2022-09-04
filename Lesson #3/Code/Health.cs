@@ -1,24 +1,19 @@
+using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
     private float _health;
     [SerializeField] private float _maxHealth;
-    [SerializeField] private BarView _barView;
+
+    public event Action<float> OnHealthChanhed;
+
+    public float CurrentHealth { get => _health; }
+    public float MaxHealth { get => _maxHealth; }
 
     public void Start()
     {
-        _health = _maxHealth;
-        InitBarView();
-    }
-
-    private void InitBarView()
-    {
-        const float MinValue = 0f;
-
-        _barView?.SetMaxValue(_maxHealth);
-        _barView?.SetMinValue(MinValue);
-        _barView?.UpdateValue(_health);
+        TakeAmount(_maxHealth);
     }
 
     private void TakeAmount(float amount)
@@ -26,11 +21,10 @@ public class Health : MonoBehaviour
         const float MinHealth = 0f;
 
         _health = Mathf.Clamp(_health + amount, MinHealth,_maxHealth);
-        _barView?.UpdateValue(_health);
+        OnHealthChanhed?.Invoke(_health);
     }
 
-
-    public void Restore(float restoreAmount) => TakeAmount(restoreAmount);
+    public void Heal(float restoreAmount) => TakeAmount(restoreAmount);
 
     public void Damage(float damageAmount) => TakeAmount(damageAmount * -1);
 }
