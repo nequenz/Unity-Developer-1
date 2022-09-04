@@ -14,8 +14,10 @@ public class Health : MonoBehaviour
 
     private void InitBarView()
     {
+        const float MinValue = 0f;
+
         _barView?.SetMaxValue(_maxHealth);
-        _barView?.SetMinValue(0f);
+        _barView?.SetMinValue(MinValue);
         _barView?.SetValue(_health);
     }
 
