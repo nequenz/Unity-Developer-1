@@ -1,12 +1,14 @@
 using UnityEngine.UI;
 using UnityEngine;
 using System;
+using System.Collections;
 
 [RequireComponent(typeof(Slider))]
 public class BarView : MonoBehaviour
 {
+    private Coroutine _animateBarCoroutine;
     private Slider _sliderView;
-    private float _value = 0f;
+    private float _target = 0f;
     private float _changeSpeed = 5f;
     [SerializeField] private Health _health;
 
@@ -20,7 +22,7 @@ public class BarView : MonoBehaviour
         if(_health)
         {
             InitValues();
-            _health.OnHealthChanged += OnHealthChanged;
+            _health.HealthChanged += OnHealthChanged;
         }
     }
 
@@ -28,13 +30,8 @@ public class BarView : MonoBehaviour
     {
         if (_health)
         {
-            _health.OnHealthChanged -= OnHealthChanged;
+            _health.HealthChanged -= OnHealthChanged;
         }
-    }
-
-    private void Update()
-    {
-        AnimateBar();
     }
 
     private void InitValues()
@@ -44,22 +41,35 @@ public class BarView : MonoBehaviour
         _sliderView.maxValue = _health.MaxHealth;
         _sliderView.minValue = MinHealth;
         _sliderView.value = _health.CurrentHealth;
-        _value = _health.CurrentHealth;
+        _target = _health.CurrentHealth;
     }
 
-    private void AnimateBar()
+    private IEnumerator AnimateBar()
     {
         const float DifferenceFactor = 0.1f;
 
-        if (Mathf.Abs(_value - _sliderView.value) > DifferenceFactor)
+        bool isTargetReached = true;
+
+        while(isTargetReached)
         {
-            _value = Mathf.Clamp(_value, _sliderView.minValue, _sliderView.maxValue);
-            _sliderView.value = Mathf.Lerp(_sliderView.value, _value, Time.deltaTime * _changeSpeed);
+            isTargetReached = Mathf.Abs(_target - _sliderView.value) > DifferenceFactor;
+            _target = Mathf.Clamp(_target, _sliderView.minValue, _sliderView.maxValue);
+            _sliderView.value = Mathf.Lerp(_sliderView.value, _target, Time.deltaTime * _changeSpeed);
+            
+            yield return null;
         }
+
+        _animateBarCoroutine = null;
     }
 
     private void OnHealthChanged(float health)
     {
-        _value = health;
+        _target = health;
+
+        if( _animateBarCoroutine == null )
+        {
+            Debug.Log("start");
+            _animateBarCoroutine = StartCoroutine(AnimateBar());
+        }
     }
 }
