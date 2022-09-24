@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackAbility : MonoBehaviour
 {
-    [SerializeField] Bullet _currentBullet;
+    [SerializeField] private Bullet _currentBullet;
     [SerializeField] private float _maxDelayAttack = 2.5f;
     private float _delayAttack = 0f;
     private Transform _target;
@@ -42,5 +42,4 @@ public class AttackAbility : MonoBehaviour
 
 		return (_target != null && _target.TryGetComponent(out health));
 	}
-
 }
