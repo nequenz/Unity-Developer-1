@@ -6,18 +6,18 @@ using UnityEngine;
 [RequireComponent(typeof(StateMachine))]
 public abstract class State : MonoBehaviour
 {
-    private Action<State, State> _onChanged;
     protected StateMachine OwnStateMachine;
+
+    public event Action<State, State> Changed;
 
     protected virtual void Awake() => enabled = false;
 
     protected void ChangeState(State newState)
     {
         enabled = false;
-        _onChanged?.Invoke(this, newState);
+        Changed?.Invoke(this, newState);
     }
 
-    public bool HasOnChangedListener() => _onChanged != null;
+    public bool HasOnChangedListener() => Changed != null;
 
-    public void AttachOnChangedListener(Action<State, State> onChanged) => _onChanged = onChanged;
 }
