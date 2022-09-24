@@ -15,7 +15,7 @@ public class StateMachine : MonoBehaviour
         foreach(State state in GetComponents(typeof(State)))
         {
             if (state.HasOnChangedListener() == false)
-                state.AttachOnChangedListener(OnStateCnanged);
+                state.Changed += OnStateCnanged;
 
             if (state != _currentState)
                 state.enabled = false;
@@ -25,7 +25,11 @@ public class StateMachine : MonoBehaviour
     private void OnDisable()
     {
         foreach (State state in GetComponents(typeof(State)))
+        {
             state.enabled = false;
+            state.Changed -= OnStateCnanged;
+        }
+           
     }
 
     private void Update()
