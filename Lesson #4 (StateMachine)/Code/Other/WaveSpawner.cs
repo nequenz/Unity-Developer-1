@@ -65,5 +65,4 @@ public class WaveSpawner : Spawner
         else if ( wave.IsAmountOver() )
             DisableSpawning();
     }
-
 }
