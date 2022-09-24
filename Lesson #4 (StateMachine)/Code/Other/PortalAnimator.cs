@@ -4,8 +4,8 @@ using UnityEngine.Events;
 
 public class PortalAnimator : MonoBehaviour
 {
-    [SerializeField] private UnityEvent _onClosed;
-    [SerializeField] private UnityEvent _onOpened;
+    [SerializeField] private UnityEvent _closed;
+    [SerializeField] private UnityEvent _opened;
     private Coroutine _animateCoroutine;
     private float _startHeight;
     private float _currentHeight;
@@ -26,13 +26,13 @@ public class PortalAnimator : MonoBehaviour
     {
         const float AdditinalHeight = 0.1f;
 
-        float target = (_isOpened == false) ? (_startHeight + AdditinalHeight) : -AdditinalHeight;
-        float _animationSpeed = 0.75f;
+        float animationTarget = (_isOpened == false) ? (_startHeight + AdditinalHeight) : -AdditinalHeight;
+        float animationSpeed = 0.75f;
         Vector3 size = transform.localScale;
 
         while( _currentHeight <= _startHeight && _currentHeight >= 0 )
         {
-            _currentHeight = Mathf.MoveTowards(_currentHeight,target, _animationSpeed * Time.deltaTime);
+            _currentHeight = Mathf.MoveTowards(_currentHeight,animationTarget, animationSpeed * Time.deltaTime);
             size.y = _currentHeight;
             transform.localScale = size;
 
@@ -40,9 +40,9 @@ public class PortalAnimator : MonoBehaviour
         }
 
         if (_isOpened == false)
-            _onOpened?.Invoke();
+            _opened?.Invoke();
         else
-            _onClosed?.Invoke();
+            _closed?.Invoke();
 
         _isOpened = !_isOpened;
         _animateCoroutine = null;
@@ -61,11 +61,10 @@ public class PortalAnimator : MonoBehaviour
         _isOpened = false;
         scale.y = 0f;
         transform.localScale = scale;
-        _onClosed?.Invoke();
+        _closed?.Invoke();
     }
 
     public void Open() => StartAnimate();
 
     public void Close() => StartAnimate();
-
 }
