@@ -19,5 +19,4 @@ public abstract class State : MonoBehaviour
     }
 
     public bool HasOnChangedListener() => Changed != null;
-
 }
