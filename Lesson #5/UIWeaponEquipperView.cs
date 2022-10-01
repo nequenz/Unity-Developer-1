@@ -5,6 +5,7 @@ public class UIWeaponEquipperView : MonoBehaviour
 {
     [SerializeField] private WeaponEquipper _weaponEquipper;
     [SerializeField] private Image _iconToDraw;
+    [SerializeField] private Text _text;
 
     private void OnEnable()
     {
@@ -24,5 +25,10 @@ public class UIWeaponEquipperView : MonoBehaviour
         {
             _iconToDraw.sprite = equippedWeapon.Icon;
         } 
+
+        if(_text != null)
+        {
+            _text.text = equippedWeapon.Name;
+        }
     }
 }
